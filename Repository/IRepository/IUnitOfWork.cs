@@ -9,6 +9,10 @@ namespace Banha_UniverCity.Repository.IRepository
         public ICourseVideoRepository courseVideoRepository { get; }
         public IDepartmentRepository departmentRepository { get; }
         public IEnrollmentRepository enrollmentRepository { get; }
+        public IAcademicYearRepository academicYear {  get; }
+        public IClassScheduleRepository classSchedule { get; }
+        public IFeedbackRepository feedbackRepository { get; }
+        public IEventRepository eventRepository { get; }
         public void Commit();
     }
 }

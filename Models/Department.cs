@@ -5,5 +5,8 @@
         public int DepartmentID { get; set; } // المعرف الفريد للقسم
         public string DepartmentName { get; set; } = string.Empty; // اسم القسم
         public ICollection<Course> Courses { get; set; } = new List<Course>(); // الكورسات التي يتضمنها القسم
+        public ICollection<Event> Events { get; set; } = new List<Event>();
+        public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
+
     }
 }

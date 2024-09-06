@@ -2,6 +2,7 @@ using Banha_UniverCity.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Banha_UniverCity.Repository.IRepository;
 
 namespace Banha_UniverCity
 {
@@ -19,7 +20,7 @@ namespace Banha_UniverCity
            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
-
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             var app = builder.Build();
 
 

@@ -4,6 +4,7 @@ using Banha_UniverCity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banha_UniverCity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240905130346_add_EventTableandRelations")]
+    partial class add_EventTableandRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -369,7 +372,7 @@ namespace Banha_UniverCity.Migrations
                             FeedbackID = 1,
                             Content = "Great course!",
                             CourseId = 1,
-                            FeedbackDate = new DateTime(2024, 9, 6, 11, 43, 5, 382, DateTimeKind.Local).AddTicks(4288),
+                            FeedbackDate = new DateTime(2024, 9, 5, 16, 3, 42, 273, DateTimeKind.Local).AddTicks(2260),
                             ProviderUserId = "1",
                             TargetStudentUserId = "1"
                         },
@@ -378,7 +381,7 @@ namespace Banha_UniverCity.Migrations
                             FeedbackID = 2,
                             Content = "Need improvement on some topics.",
                             CourseId = 2,
-                            FeedbackDate = new DateTime(2024, 9, 6, 11, 43, 5, 382, DateTimeKind.Local).AddTicks(4346),
+                            FeedbackDate = new DateTime(2024, 9, 5, 16, 3, 42, 273, DateTimeKind.Local).AddTicks(2335),
                             ProviderUserId = "2",
                             TargetStudentUserId = "1"
                         });
@@ -605,9 +608,6 @@ namespace Banha_UniverCity.Migrations
                     b.Property<int?>("AvailableCreditHours")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -618,8 +618,6 @@ namespace Banha_UniverCity.Migrations
 
                     b.HasIndex("AcademicYearID");
 
-                    b.HasIndex("DepartmentId");
-
                     b.HasDiscriminator().HasValue("ApplicationUser");
 
                     b.HasData(
@@ -627,14 +625,14 @@ namespace Banha_UniverCity.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0d16bc8c-ce61-4471-bc3f-cc40df7067af",
+                            ConcurrencyStamp = "3e907534-08c4-4116-acad-94b80086e878",
                             Email = "student1@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "STUDENT1@EXAMPLE.COM",
                             NormalizedUserName = "STUDENT1",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1d0dc1b7-f4d1-438b-b771-efef6fd3af51",
+                            SecurityStamp = "03f235e3-0033-4b57-a124-1414e4c21cc8",
                             TwoFactorEnabled = false,
                             UserName = "student1",
                             AvailableCreditHours = 0,
@@ -645,14 +643,14 @@ namespace Banha_UniverCity.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9d0850e-8317-42b0-a316-bc12de80f698",
+                            ConcurrencyStamp = "a36f146a-9b8c-4b65-8b96-b03886d3b971",
                             Email = "instructor1@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "INSTRUCTOR1@EXAMPLE.COM",
                             NormalizedUserName = "INSTRUCTOR1",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ce6cb7d4-2585-4946-b88e-33541271b42d",
+                            SecurityStamp = "7cb1b45d-27e3-4b5e-8f54-b5f3aa319f09",
                             TwoFactorEnabled = false,
                             UserName = "instructor1",
                             AvailableCreditHours = 0,
@@ -829,14 +827,7 @@ namespace Banha_UniverCity.Migrations
                         .WithMany("Students")
                         .HasForeignKey("AcademicYearID");
 
-                    b.HasOne("Banha_UniverCity.Models.Department", "Department")
-                        .WithMany("Users")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("AcademicYear");
-
-                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Banha_UniverCity.Models.AcademicYear", b =>
@@ -862,8 +853,6 @@ namespace Banha_UniverCity.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Events");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Banha_UniverCity.Models.ApplicationUser", b =>

@@ -16,6 +16,10 @@ namespace Banha_UniverCity.Repository.IRepository
             courseVideoRepository=new CourseVideoRepository(context);
             departmentRepository=new DepartmentRepository(context);
             enrollmentRepository=new EnrollmentRepository(context);
+            classSchedule=new ClassScheduleRepository(context);
+            academicYear=new AcademicYearRepository(context);
+            feedbackRepository=new FeedbackRepository(context);
+            eventRepository=new EventRepository(context);
             
             
         }
@@ -24,6 +28,12 @@ namespace Banha_UniverCity.Repository.IRepository
         public ICourseVideoRepository courseVideoRepository { get; set; }
         public IDepartmentRepository departmentRepository { get; set; }
         public IEnrollmentRepository enrollmentRepository { get; set; }
+        public IAcademicYearRepository academicYear { get; set; }
+        public IClassScheduleRepository classSchedule { get; set; }
+        public IFeedbackRepository feedbackRepository { get; set; }
+        public IEventRepository eventRepository { get; set; }
+
+
         public void Commit() { context.SaveChanges(); }
     }
 }

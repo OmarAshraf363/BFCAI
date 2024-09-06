@@ -1,0 +1,132 @@
+﻿@model Course
+@{
+    ViewData["Title"] = Model.CourseID == 0 ? "Create New Course" : "Edit Course";
+}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h3 class="mb-4">
+            @if (Model.CourseID == 0)
+            {
+                <i class="fa-solid fa-plus text-success"></i>
+                @: Create New Course
+              
+            }
+            else
+            {
+                <i class="fa-solid fa-edit text-warning"></i>
+               @: Edit
+                                  <span class="text-primary">@Model.CourseName</span>
+               @: Course
+            }
+        </h3>
+
+        <form asp-action="Upsert">
+            @if (ViewBag.fromDepartment != null)
+            {
+                <input type="text" name="fromDepartment" value="@ViewBag.fromDepartment" />
+            }
+            <div class="form-group">
+                <input asp-for="CourseID" type="hidden" class="form-control" readonly />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CourseName" class="form-label fw-bold">Course Name</label>
+                <input asp-for="CourseName" class="form-control" placeholder="Enter course name" />
+                <span asp-validation-for="CourseName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Enter course description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Credits" class="form-label fw-bold">Credits</label>
+                <input asp-for="Credits" class="form-control" type="number" min="0" max="10" placeholder="Enter course credits" />
+                <span asp-validation-for="Credits" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="InstructorId" class="form-label fw-bold">Instructor</label>
+                <select asp-for="InstructorId" asp-items="ViewBag.Instructors" class="form-control">
+                    <option value="">Select Instructor</option>
+                </select>
+                <span asp-validation-for="InstructorId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="DepartmentId" class="form-label fw-bold">Department</label>
+                <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
+                    <option value="">Select Department</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                @if (Model.CourseID == 0)
+                {
+                    <button type="submit" class="btn btn-success w-100 me-2"><i class="fa-solid fa-check"></i> Create</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-dark w-100 me-2"><i class="fa-solid fa-save"></i> Update</button>
+                }
+                <a asp-action="Index" class="btn btn-secondary w-100"><i class="fa-solid fa-arrow-left"></i> Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- FontAwesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<style>
+    .card {
+        background-color: #212325;
+        border-radius: 8px;
+        border: none;
+    }
+
+    h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-label {
+        color: #495057;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+        background-color: #1c1a1a;
+        color:lightgray;
+    }
+
+        .form-control:focus {
+            background-color: #111315;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    .btn {
+        padding: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover,
+    .btn-dark:hover,
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn i {
+        margin-right: 5px;
+    }
+</style>
