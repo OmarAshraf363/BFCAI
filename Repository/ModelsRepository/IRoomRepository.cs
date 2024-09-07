@@ -3,8 +3,7 @@ using Banha_UniverCity.Repository.IRepository;
 
 namespace Banha_UniverCity.Repository.ModelsRepository
 {
-    public interface IDepartmentRepository: IGenralRepository<Department>
+    public interface IRoomRepository:IGenralRepository<Room>
     {
-        Department getSpacifcDetails(int id);
     }
 }

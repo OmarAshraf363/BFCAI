@@ -99,17 +99,50 @@ namespace Banha_UniverCity.Data
 
 
             modelBuilder.Entity<Department>()
-                .HasMany(e=>e.Users)
-                .WithOne(e=>e.Department)
-                .HasForeignKey(e=>e.DepartmentId)
+                .HasMany(e => e.Users)
+                .WithOne(e => e.Department)
+                .HasForeignKey(e => e.DepartmentId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<ClassSchedule>()
+          .HasOne(s => s.Course)
+          .WithMany(c => c.ClassSchedules)
+          .HasForeignKey(s => s.CourseId)
+          .OnDelete(DeleteBehavior.Cascade); // Optional
+
+            // Configure the relationship between Instructor and Schedule (One-to-Many)
+            modelBuilder.Entity<ClassSchedule>()
+                .HasOne(s => s.Instructor)
+                .WithMany(i => i.Schedules)
+                .HasForeignKey(s => s.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict); // Optional
+
+            // Configure the relationship between Room and Schedule (One-to-Many)
+            modelBuilder.Entity<ClassSchedule>()
+                .HasOne(s => s.Room)
+                .WithMany(r => r.Schedules)
+                .HasForeignKey(s => s.RoomId)
+                .OnDelete(DeleteBehavior.Restrict); // Optional
+
+            modelBuilder.Entity<AcademicYear>()
+                .HasMany(e => e.ClassSchedules)
+                .WithOne(e => e.AcadmicYear)
+                .HasForeignKey(e => e.AcadmicYearId).OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<Department>()
+                .HasMany(e=>e.ClassSchedules)
+                .WithOne(e => e.Department)
+                .HasForeignKey(e => e.DepartmentId).OnDelete(DeleteBehavior.Restrict);
+
 
             //seeding
 
             modelBuilder.Entity<Department>().HasData(
-               new Department { DepartmentID = 1, DepartmentName = "Computer Science" },
-               new Department { DepartmentID = 2, DepartmentName = "Electrical Engineering" }
-           );
+                   new Department { DepartmentID = 1, DepartmentName = "Computer Science" },
+                   new Department { DepartmentID = 2, DepartmentName = "Electrical Engineering" }
+               );
 
             modelBuilder.Entity<ApplicationUser>().HasData(
                 new ApplicationUser { Id = "1", UserName = "student1", NormalizedUserName = "STUDENT1", Email = "student1@example.com", NormalizedEmail = "STUDENT1@EXAMPLE.COM", FullName = "Student One", UserType = "Student" },
@@ -132,21 +165,34 @@ namespace Banha_UniverCity.Data
             );
 
             modelBuilder.Entity<CourseCurriculum>().HasData(
-                new CourseCurriculum { CourseCurriculumID = 1, CourseID = 1, Title = "Introduction",Content="Intro Of Cs" },
+                new CourseCurriculum { CourseCurriculumID = 1, CourseID = 1, Title = "Introduction", Content = "Intro Of Cs" },
                 new CourseCurriculum { CourseCurriculumID = 2, CourseID = 2, Title = "Basic Programming Concepts", Content = "Intro Of C++" }
             );
 
-            modelBuilder.Entity<ClassSchedule>().HasData(
-                new ClassSchedule { ClassScheduleId = 1, CourseId = 1,DayOfWeek="Monday", StartTime = new DateTime(2024, 10, 1, 10, 0, 0) },
-                new ClassSchedule { ClassScheduleId = 2, CourseId = 2, DayOfWeek = "Monday", StartTime = new DateTime(2024, 10, 1, 12, 0, 0)  ,EndTime = new DateTime(2024, 10, 1, 12, 1, 1) }
-            );
+
 
             modelBuilder.Entity<Feedback>().HasData(
-                new Feedback { FeedbackID = 1, ProviderUserId = "1", TargetStudentUserId = "1", CourseId = 1, Content = "Great course!", FeedbackDate=DateTime.Now,},
+                new Feedback { FeedbackID = 1, ProviderUserId = "1", TargetStudentUserId = "1", CourseId = 1, Content = "Great course!", FeedbackDate = DateTime.Now, },
                 new Feedback { FeedbackID = 2, ProviderUserId = "2", TargetStudentUserId = "1", CourseId = 2, Content = "Need improvement on some topics.", FeedbackDate = DateTime.Now }
             );
 
+            modelBuilder.Entity<Room>().HasData(
+      new Room { RoomID = 1, Name = "Room 101", Capacity = 30 },
+      new Room { RoomID = 2, Name = "Lab 202", Capacity = 20 }
+  );
 
+            // Seed Data for Schedule
+            modelBuilder.Entity<ClassSchedule>().HasData(
+                new ClassSchedule { ClassScheduleId = 1, CourseId = 1, InstructorId = "1", RoomId = 1, DayOfWeek = "Monday", StartTime = new DateTime(2024, 10, 1, 10, 0, 0), EndTime = new DateTime(2024, 10, 1, 10, 0, 0) },
+                new ClassSchedule { ClassScheduleId = 2, CourseId = 2, InstructorId = "2", RoomId = 2, DayOfWeek = "Tuesday", StartTime = new DateTime(2024, 10, 1, 10, 2, 0), EndTime = new DateTime(2024, 10, 1, 10, 2, 0) }
+            );
+            modelBuilder.Entity<AcademicYear>().HasData(
+                new AcademicYear() { AcademicYearID = 1, YearName = "2020-2021" },
+                new AcademicYear() { AcademicYearID = 2, YearName = "2021-2022" },
+                new AcademicYear() { AcademicYearID = 3, YearName = "2022-2023" },
+                new AcademicYear() { AcademicYearID = 4, YearName = "2023-2024" }
+
+                );
         }
     }
 }

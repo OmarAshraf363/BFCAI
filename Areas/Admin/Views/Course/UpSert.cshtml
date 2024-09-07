@@ -8,7 +8,15 @@
             @if (Model.CourseID == 0)
             {
                 <i class="fa-solid fa-plus text-success"></i>
-                @: Create New Course
+                if(ViewBag.fromDepartment != null)
+                {
+                    @:Create New Course in @ViewBag.departmentName
+
+                }
+                else
+                {
+                    @:Create New Course
+                }
               
             }
             else
@@ -23,7 +31,8 @@
         <form asp-action="Upsert">
             @if (ViewBag.fromDepartment != null)
             {
-                <input type="text" name="fromDepartment" value="@ViewBag.fromDepartment" />
+                <input type="hidden" name="fromDepartment" value="@ViewBag.fromDepartment" />
+                
             }
             <div class="form-group">
                 <input asp-for="CourseID" type="hidden" class="form-control" readonly />
@@ -54,6 +63,10 @@
                 </select>
                 <span asp-validation-for="InstructorId" class="text-danger"></span>
             </div>
+            @if (ViewBag.fromDepartment != null)
+            {
+                <input asp-for="DepartmentId" type="hidden" value="@ViewBag.drpartmentId" />
+            }else{
 
             <div class="form-group mb-4">
                 <label asp-for="DepartmentId" class="form-label fw-bold">Department</label>
@@ -62,6 +75,7 @@
                 </select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
+            }
 
             <div class="d-flex justify-content-between">
                 @if (Model.CourseID == 0)

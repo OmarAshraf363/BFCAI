@@ -10,23 +10,60 @@
         </div>
         <div style="background-color: #202020;" class="card-body">
             <!-- Department Information -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Department ID: </h5>
-                    <p>@Model.DepartmentID</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Department Name: </h5>
-                    <p>@Model.DepartmentName</p>
+            <div class="container py-4">
+                <div class="row mb-4">
+                    <!-- Department ID -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-black text-white p-3 rounded">
+                            <h5>Department ID:</h5>
+                            <p>@Model.DepartmentID</p>
+                        </div>
+                    </div>
+                    <!-- Department Name -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-info text-white p-3 rounded">
+                            <h5>Department Name:</h5>
+                            <p>@Model.DepartmentName</p>
+                        </div>
+                    </div>
+                    <!-- Total Students -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-success text-white p-3 rounded">
+                            <h5>Total Students:</h5>
+                            <p>@Model.Users.Count(e => e.UserType == StaticData.role_Student)</p>
+                        </div>
+                    </div>
+                    <!-- Total Instructors -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-primary text-white p-3 rounded">
+                            <h5>Total Instructors:</h5>
+                            <p>@Model.Users.Count(e => e.UserType == StaticData.role_Instructor)</p>
+                        </div>
+                    </div>
+                    <!-- Total Hours -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-dark text-white p-3 rounded">
+                            <h5>Total Hours:</h5>
+                            <p>@Model.Courses.Sum(e => e.Credits)</p>
+                        </div>
+                    </div>
+                    <!-- Total Courses -->
+                    <div class="col-md-4 mb-3">
+                        <div class="info-box bg-secondary text-white p-3 rounded">
+                            <h5>Total Courses:</h5>
+                            <p>@Model.Courses.Where(e=>e.DepartmentId==Model.DepartmentID).Count()</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- Courses List -->
             <div class="mb-4">
                 <div class="card-header  text-white d-flex justify-content-between align-items-center">
                     <h4 class="">Courses</h4>
-                    <a asp-action="UpSert" asp-controller="Course" asp-route-fromDepartment="@true" class="btn btn-light">
-                         Add New Course
+                    <a asp-action="UpSert" asp-controller="Course" asp-route-fromDepartment="@true" asp-route-departmentId="@Model.DepartmentID" class="btn btn-light">
+                        Add New Course
                     </a>
                 </div>
                 <table class="table table-bordered table-hover">
@@ -99,6 +136,48 @@
                 </table>
             </div>
 
+            <div class="mb-4">
+                <h4 class="">Schadual for @Model.DepartmentName</h4>
+                <table class="table table-bordered schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>
+                                Day
+                            </th>
+                            <th>Course</th>
+                            <th>Instructor</th>
+                            <th>Room</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var schedule in Model.ClassSchedules)
+                        {
+                            <tr onclick="getUpSert(@schedule.ClassScheduleId)">
+                                <td>
+                                    @schedule.StartTime.ToString("hh:mm tt") - @schedule.EndTime.ToString("hh:mm tt")
+                                </td>
+                                <td>
+                                    @schedule.DayOfWeek
+                                </td>
+                                <td>
+                                    @schedule.Course.CourseName
+                                </td>
+                                <td>
+                                    @schedule.Instructor?.FullName
+                                </td>
+                                <td>
+                                    @schedule.Room?.Name"
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
             <!-- Events List -->
             <div class="mb-4">
                 <h4 class="">Events</h4>
@@ -155,4 +234,25 @@
     h4 {
         color: lightgray;
     }
+
+
+    .info-box {
+        background-color: #333; /* خلفية داكنة */
+        color: #f8f9fa; /* لون النص الأبيض */
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .info-box h5 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+        }
+
+
+
 </style>

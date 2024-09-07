@@ -4,6 +4,7 @@ using Banha_UniverCity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banha_UniverCity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240906143657_insert_room_and_edit_schedualing_and_edit_relations")]
+    partial class insert_room_and_edit_schedualing_and_edit_relations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,28 +40,6 @@ namespace Banha_UniverCity.Migrations
                     b.HasKey("AcademicYearID");
 
                     b.ToTable("AcademicYear");
-
-                    b.HasData(
-                        new
-                        {
-                            AcademicYearID = 1,
-                            YearName = "2020-2021"
-                        },
-                        new
-                        {
-                            AcademicYearID = 2,
-                            YearName = "2021-2022"
-                        },
-                        new
-                        {
-                            AcademicYearID = 3,
-                            YearName = "2022-2023"
-                        },
-                        new
-                        {
-                            AcademicYearID = 4,
-                            YearName = "2023-2024"
-                        });
                 });
 
             modelBuilder.Entity("Banha_UniverCity.Models.ClassSchedule", b =>
@@ -69,18 +50,12 @@ namespace Banha_UniverCity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassScheduleId"));
 
-                    b.Property<int?>("AcadmicYearId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("DayOfWeek")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -96,11 +71,7 @@ namespace Banha_UniverCity.Migrations
 
                     b.HasKey("ClassScheduleId");
 
-                    b.HasIndex("AcadmicYearId");
-
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("InstructorId");
 
@@ -415,7 +386,7 @@ namespace Banha_UniverCity.Migrations
                             FeedbackID = 1,
                             Content = "Great course!",
                             CourseId = 1,
-                            FeedbackDate = new DateTime(2024, 9, 7, 12, 34, 52, 380, DateTimeKind.Local).AddTicks(858),
+                            FeedbackDate = new DateTime(2024, 9, 6, 17, 36, 55, 860, DateTimeKind.Local).AddTicks(2172),
                             ProviderUserId = "1",
                             TargetStudentUserId = "1"
                         },
@@ -424,7 +395,7 @@ namespace Banha_UniverCity.Migrations
                             FeedbackID = 2,
                             Content = "Need improvement on some topics.",
                             CourseId = 2,
-                            FeedbackDate = new DateTime(2024, 9, 7, 12, 34, 52, 380, DateTimeKind.Local).AddTicks(923),
+                            FeedbackDate = new DateTime(2024, 9, 6, 17, 36, 55, 860, DateTimeKind.Local).AddTicks(2216),
                             ProviderUserId = "2",
                             TargetStudentUserId = "1"
                         });
@@ -707,14 +678,14 @@ namespace Banha_UniverCity.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0af3073e-9959-41ea-96a0-7b365d43e38a",
+                            ConcurrencyStamp = "47f7b7de-9e84-45ca-ac52-4a56db83ed7e",
                             Email = "student1@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "STUDENT1@EXAMPLE.COM",
                             NormalizedUserName = "STUDENT1",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "118d016e-0a05-4303-8feb-de958ff7c400",
+                            SecurityStamp = "364e0e9f-05f7-4bb3-984a-f69c5f5ab94c",
                             TwoFactorEnabled = false,
                             UserName = "student1",
                             AvailableCreditHours = 0,
@@ -725,14 +696,14 @@ namespace Banha_UniverCity.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "66339bf3-9159-4484-afef-fcf8d0b6ce14",
+                            ConcurrencyStamp = "a2bf75ab-d16d-4dcc-899f-8e0e73a6fdef",
                             Email = "instructor1@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "INSTRUCTOR1@EXAMPLE.COM",
                             NormalizedUserName = "INSTRUCTOR1",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0e23b6cb-cfaa-4e68-b4de-90cd07caf997",
+                            SecurityStamp = "408740ad-5232-436a-80ba-063642e41286",
                             TwoFactorEnabled = false,
                             UserName = "instructor1",
                             AvailableCreditHours = 0,
@@ -743,21 +714,11 @@ namespace Banha_UniverCity.Migrations
 
             modelBuilder.Entity("Banha_UniverCity.Models.ClassSchedule", b =>
                 {
-                    b.HasOne("Banha_UniverCity.Models.AcademicYear", "AcadmicYear")
-                        .WithMany("ClassSchedules")
-                        .HasForeignKey("AcadmicYearId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Banha_UniverCity.Models.Course", "Course")
                         .WithMany("ClassSchedules")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Banha_UniverCity.Models.Department", "Department")
-                        .WithMany("ClassSchedules")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Banha_UniverCity.Models.ApplicationUser", "Instructor")
                         .WithMany("Schedules")
@@ -769,11 +730,7 @@ namespace Banha_UniverCity.Migrations
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("AcadmicYear");
-
                     b.Navigation("Course");
-
-                    b.Navigation("Department");
 
                     b.Navigation("Instructor");
 
@@ -949,8 +906,6 @@ namespace Banha_UniverCity.Migrations
 
             modelBuilder.Entity("Banha_UniverCity.Models.AcademicYear", b =>
                 {
-                    b.Navigation("ClassSchedules");
-
                     b.Navigation("Students");
                 });
 
@@ -969,8 +924,6 @@ namespace Banha_UniverCity.Migrations
 
             modelBuilder.Entity("Banha_UniverCity.Models.Department", b =>
                 {
-                    b.Navigation("ClassSchedules");
-
                     b.Navigation("Courses");
 
                     b.Navigation("Events");

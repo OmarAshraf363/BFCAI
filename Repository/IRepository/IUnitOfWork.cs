@@ -10,9 +10,10 @@ namespace Banha_UniverCity.Repository.IRepository
         public IDepartmentRepository departmentRepository { get; }
         public IEnrollmentRepository enrollmentRepository { get; }
         public IAcademicYearRepository academicYear {  get; }
-        public IClassScheduleRepository classSchedule { get; }
+        public IClassScheduleRepository classSchedulere { get; }
         public IFeedbackRepository feedbackRepository { get; }
         public IEventRepository eventRepository { get; }
+        public IRoomRepository roomRepository { get; }
         public void Commit();
     }
 }

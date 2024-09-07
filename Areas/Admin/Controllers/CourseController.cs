@@ -36,7 +36,7 @@ namespace Banha_UniverCity.Areas.Admin.Controllers
 
         public IActionResult Details(int id) => View(_unitOfWork.courseRepository.GetOne(e => e.CourseID == id, e => e.Instructor, e => e.Department, e => e.Enrollments));
         [HttpGet]
-        public IActionResult UpSert(int? id, bool? fromDepartment)
+        public IActionResult UpSert(int? id, bool? fromDepartment,int? departmentId)
         {
             Course? course = new();
             ViewBag.Departments = _unitOfWork.departmentRepository.Get().Select(e => new SelectListItem
@@ -64,6 +64,8 @@ namespace Banha_UniverCity.Areas.Admin.Controllers
             if (fromDepartment == true)
             {
                 ViewBag.fromDepartment = fromDepartment.ToString();
+                ViewBag.drpartmentId = departmentId;
+                ViewBag.departmentName = _unitOfWork.departmentRepository.GetOne(e => e.DepartmentID == departmentId)?.DepartmentName;
             }
 
             return course != null ? View(course) : NotFound();

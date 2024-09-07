@@ -28,6 +28,11 @@ namespace Banha_UniverCity.Models
         // Feedbacks received by the user (if they are a student)
         public ICollection<Feedback> FeedbacksReceived { get; set; } = new List<Feedback>();
 
-        public ICollection<Event> Events { get; set; } = new List<Event>(); 
+        public ICollection<Event> Events { get; set; } = new List<Event>();
+
+
+        public ICollection<ClassSchedule> Schedules { get; set; } = new List<ClassSchedule>();
+
     }
+
 }

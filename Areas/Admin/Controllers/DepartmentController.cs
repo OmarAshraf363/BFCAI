@@ -2,8 +2,9 @@
 using Banha_UniverCity.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace Banha_UniverCity.Areas.Admin
+namespace Banha_UniverCity.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DepartmentController : Controller
@@ -18,22 +19,22 @@ namespace Banha_UniverCity.Areas.Admin
         }
         public IActionResult Index()
         {
-            var listOfDepartments = _unitOfWork.departmentRepository.Get(null,e=>e.Courses);
+            var listOfDepartments = _unitOfWork.departmentRepository.Get(null, e => e.Courses);
             return View(listOfDepartments);
         }
         public IActionResult Details(int id)
         {
-         var department=_unitOfWork.departmentRepository.GetOne(e=>e.DepartmentID==id,e=>e.Courses,e=>e.Users,e=>e.Events);   
-            return View(department); 
+            var department = _unitOfWork.departmentRepository.getSpacifcDetails(id);//complex Qyery
+            return View(department);
         }
 
         [HttpGet]
-        public IActionResult UpSert(int? id )
+        public IActionResult UpSert(int? id)
         {
             Department department = new();
-            if(id != null)
+            if (id != null)
             {
-                department= _unitOfWork.departmentRepository.GetOne(e => e.DepartmentID == id);
+                department = _unitOfWork.departmentRepository.GetOne(e => e.DepartmentID == id);
                 return PartialView(department);
             }
             return PartialView(department);
@@ -43,7 +44,7 @@ namespace Banha_UniverCity.Areas.Admin
         {
             if (ModelState.IsValid)
             {
-                if(department.DepartmentID == 0)
+                if (department.DepartmentID == 0)
                 {
                     _unitOfWork.departmentRepository.Create(department);
                     TempData["alert"] = "Added successfully";
@@ -66,7 +67,7 @@ namespace Banha_UniverCity.Areas.Admin
             else
             {
                 var result = StaticData.CheckValidation(ModelState, Request, false);
-                if (result!=null)
+                if (result != null)
                 {
                     return result;
                 }

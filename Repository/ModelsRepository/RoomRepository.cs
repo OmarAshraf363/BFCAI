@@ -4,9 +4,9 @@ using Banha_UniverCity.Repository.IRepository;
 
 namespace Banha_UniverCity.Repository.ModelsRepository
 {
-    public class ClassScheduleRepository : GenralRepository<ClassSchedule>, IClassScheduleRepository
+    public class RoomRepository : GenralRepository<Room>, IRoomRepository
     {
-        public ClassScheduleRepository(ApplicationDbContext context) : base(context)
+        public RoomRepository(ApplicationDbContext context) : base(context)
         {
         }
     }
