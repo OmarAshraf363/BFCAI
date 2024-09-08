@@ -57,8 +57,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" asp-area="@StaticData.role_Admin" asp-controller="User" asp-action="Index" asp-route-filter="@StaticData.role_Student">
                                 <i class="fas fa-user-graduate"></i> Manage Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="@StaticData.role_Admin" asp-controller="User" asp-action="Index" asp-route-filter="@StaticData.role_Instructor">
+                                <i class="fas fa-user-graduate"></i> Manage Instructors
                             </a>
                         </li>
                         <li class="nav-item">
@@ -74,6 +79,11 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="@StaticData.role_Admin" asp-action="Index" asp-controller="Schedule">
                                 <i class="fas fa-calendar-alt"></i> Class Schedules
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="@StaticData.role_Admin" asp-action="Index" asp-controller="AcadmicYear">
+                                <i class="fas fa-calendar-alt"></i> Years
                             </a>
                         </li>
                     </ul>

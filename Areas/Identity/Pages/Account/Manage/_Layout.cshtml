@@ -1,11 +1,27 @@
 ﻿@{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
     {
-        Layout = parentLayout.ToString();
+        if (User.IsInRole(Banha_UniverCity.StaticData.role_Admin))
+        {
+
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_HomeLayout.cshtml";
+        }
     }
     else
     {
-        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+        if (User.IsInRole(Banha_UniverCity.StaticData.role_Admin))
+        {
+
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_HomeLayout.cshtml";
+        }
     }
 }
 

@@ -1,3 +1,4 @@
+using Banha_UniverCity.Areas.Admin.Controllers;
 using Banha_UniverCity.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -16,6 +17,10 @@ namespace Banha_UniverCity.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole(StaticData.role_Admin))
+            {
+                return RedirectToAction("Index", "DashBoard", new {Area=StaticData.role_Admin});
+            }
             return View();
         }
 

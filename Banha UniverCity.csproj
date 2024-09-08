@@ -26,4 +26,9 @@
 	  <Folder Include="Areas\Student\Controllers\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\BFCAI.Utility\BFCAI.Utility.csproj" />
+	  <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+	</ItemGroup>
+
 </Project>
