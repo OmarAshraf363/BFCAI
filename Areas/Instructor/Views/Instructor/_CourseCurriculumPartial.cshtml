@@ -1,0 +1,18 @@
+﻿@model Banha_UniverCity.Models.Course
+
+@if (Model.CourseCurricula != null && Model.CourseCurricula.Any())
+{
+    <ul class="list-group">
+        @foreach (var curriculum in Model.CourseCurricula)
+        {
+            <li class="list-group-item">
+                <h6>@curriculum.Title</h6>
+                <p>@curriculum.Content</p>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">No curricula available for this course.</p>
+}

@@ -69,12 +69,12 @@ function allConfirm(id) {
         });
 }
 
-function openModal(id, controllerName, modalname, actionName) {
+function openModal(id, controllerName, modalname, actionName,areaName) {
     let url;
     if (id === null || id === undefined) {
-        url = `/Admin/${controllerName}/${actionName}`;
+        url = `/${areaName}/${controllerName}/${actionName}`;
     } else {
-        url = `/Admin/${controllerName}/${actionName}/${id}`;
+        url = `/${areaName}/${controllerName}/${actionName}/${id}`;
     }
     $.ajax({
         url: url,
@@ -85,6 +85,25 @@ function openModal(id, controllerName, modalname, actionName) {
         },
         error: function (xhr, status, error) {
             console.log(error);
+        }
+    });
+}
+
+
+function openAddToCourse(courseId, modalName) {
+    $.ajax({
+        url: `/Instructor/Instructor/UpsertCourseCurriculum`,
+        type: 'GET',
+        data: { courseId: courseId },
+        success: function (data) {
+            // تعيين المحتوى الجديد داخل المودال
+            $(`#${modalName} .modal-content`).html(data);
+            // عرض المودال
+            $(`#${modalName}`).modal('show');
+        },
+        error: function (xhr, status, error) {
+            // طباعة الخطأ إذا فشل الطلب
+            console.error('Error fetching the modal content:', error);
         }
     });
 }

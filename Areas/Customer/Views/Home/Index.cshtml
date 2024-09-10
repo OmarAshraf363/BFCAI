@@ -1,1 +1,68 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div>
+        <h1>Welcome to BFCai University</h1>
+        <p>Your future begins here. Explore our programs and academic excellence.</p>
+        <a href="@Url.Action("Index", "Courses")" class="btn btn-primary btn-lg">Explore Courses</a>
+    </div>
+</div>
+
+<!-- Programs Section -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Our Academic Programs</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <img src="/images/computer-science.jpg" class="card-img-top" alt="Computer Science">
+                <div class="card-body">
+                    <h5 class="card-title">Computer Science</h5>
+                    <p class="card-text">A modern curriculum focusing on software development, algorithms, and machine learning.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <img src="/images/business-administration.jpg" class="card-img-top" alt="Business Administration">
+                <div class="card-body">
+                    <h5 class="card-title">Business Administration</h5>
+                    <p class="card-text">Prepare for leadership roles in global business with courses in finance, marketing, and management.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <img src="/images/engineering.jpg" class="card-img-top" alt="Engineering">
+                <div class="card-body">
+                    <h5 class="card-title">Engineering</h5>
+                    <p class="card-text">Innovative courses in civil, mechanical, and electrical engineering disciplines.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">What Our Students Say</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <blockquote class="blockquote">
+                <p>"BFCai University has provided me with the tools and knowledge I need to succeed in my career."</p>
+                <footer class="blockquote-footer">Ahmed Ali, <cite title="Source Title">Computer Science Student</cite></footer>
+            </blockquote>
+        </div>
+        <div class="col-md-6">
+            <blockquote class="blockquote">
+                <p>"The professors here are passionate about teaching and provide great support throughout the program."</p>
+                <footer class="blockquote-footer">Sarah Mohamed, <cite title="Source Title">Business Student</cite></footer>
+            </blockquote>
+        </div>
+    </div>
+</section>

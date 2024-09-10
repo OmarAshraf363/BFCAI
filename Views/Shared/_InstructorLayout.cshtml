@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - BFCai Instructor</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #eee; /* Light gray background for the body */
+        }
+
+        .navbar-custom {
+            background-color: #004d99; /* Dark blue for the navbar */
+        }
+
+            .navbar-custom a.navbar-brand {
+                color: #ffffff; /* White text for the navbar brand */
+            }
+
+            .navbar-custom .nav-link {
+                color: #ffffff; /* White text for the navbar links */
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: #ffcc00; /* Gold color on hover */
+                }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #003366; /* Even darker blue for the sidebar */
+            padding-top: 20px;
+            position: fixed; /* Fixed sidebar to keep it in place */
+            width: 250px;
+        }
+
+            .sidebar a {
+                color: #dcdcdc; /* Light gray text for sidebar links */
+                padding: 10px;
+                display: block;
+                text-decoration: none;
+            }
+
+                .sidebar a:hover {
+                    background-color: #004080; /* Slightly lighter blue for hover effect */
+                    color: #ffffff; /* White text on hover */
+                }
+
+        .content-wrapper {
+            margin-left: 250px; /* Adjust margin to account for the fixed sidebar */
+            padding: 20px;
+            min-height: 100vh; /* Ensure the content area covers the full viewport height */
+        }
+
+        footer {
+            background-color: #003366; /* Matching dark blue for the footer */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: calc(100% - 250px); /* Adjust width to account for the sidebar */
+            bottom: 0;
+            left: 250px; /* Align footer with the content wrapper */
+        }
+
+        /* Add a hover effect for the sidebar links */
+        .sidebar a:hover {
+            background-color: #004080;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        /* Add some padding to the footer */
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">BFCai Instructor Panel</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                   <partial name="_LoginPartial"> </partial>
+                </li>
+               
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <main class="d-flex">
+        <div class="sidebar">
+            <a asp-area="@StaticData.role_Instructor" asp-controller="Instructor" asp-action="Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="@Url.Action("ManageExams")"><i class="fas fa-file-alt"></i> Manage Exams</a>
+            <a asp-area="@StaticData.role_Instructor" asp-controller="Instructor" asp-action="Courses" ><i class="fas fa-book"></i> Courses</a>
+            <a href="@Url.Action("Grades")"><i class="fas fa-graduation-cap"></i> Grades</a>
+            <a href="@Url.Action("Students")"><i class="fas fa-users"></i> Students</a>
+            <a href="@Url.Action("Reports")"><i class="fas fa-chart-line"></i> Reports</a>
+            <a href="@Url.Action("Settings")"><i class="fas fa-cogs"></i> Settings</a>
+        </div>
+
+        <!-- Main Content -->
+        <main role="main" class=" overflow-auto col-md-9 ml-sm-auto col-lg-10 px-4 main-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 BFCai University - Instructor Panel</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

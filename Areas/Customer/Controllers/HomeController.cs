@@ -21,6 +21,10 @@ namespace Banha_UniverCity.Areas.Customer.Controllers
             {
                 return RedirectToAction("Index", "DashBoard", new {Area=StaticData.role_Admin});
             }
+            if (User.IsInRole(StaticData.role_Instructor))
+            {
+                return RedirectToAction("Index", "Exam", new { Area = StaticData.role_Instructor });
+            }
             return View();
         }
 

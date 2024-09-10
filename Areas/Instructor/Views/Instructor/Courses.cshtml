@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Course>
+
+@{
+    ViewData["Title"] = "My Courses";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">My Courses</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Students Enrolled</th>
+                    <th>Process</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.CourseName</td>
+                        <td>@course.Description</td>
+                        <td>@course.Enrollments.Count</td> <!-- Assuming you have an Enrollments list -->
+                        <td> <a onclick="openCourseCurriculum(@course.CourseID)" class="btn btn-outline-info">View</a></td>
+                        <td>
+                            <a class="btn btn-primary" onclick="openModal(null,'Instructor','addModal','UpsertCourseCurriculum','Instructor')">UpLoad Video</a>
+                            <a class="btn btn-dark" onclick="openAddToCourse(@course.CourseID,'addModal')">Add-Process</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            You have no courses.
+        </div>
+    }
+</div>
+<div class="modal fade " id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="curriculumModal" tabindex="-1" aria-labelledby="curriculumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="curriculumModalLabel">Course Curriculum</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openCourseCurriculum(courseId) {
+        $.ajax({
+            url: `/Instructor/Instructor/GetCourseCurriculum?courseId=${courseId}`,
+            type: 'GET',
+            success: function (data) {
+                $('#curriculumModal .modal-body').html(data);
+                $('#curriculumModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+
