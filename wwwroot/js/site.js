@@ -107,3 +107,51 @@ function openAddToCourse(courseId, modalName) {
         }
     });
 }
+
+
+function openAddToCourseRefOrVideo(curriculumId, bindId,modalName) {
+    let actionUrl = '';
+
+    if (modalName === 'AddVideoModal') {
+        actionUrl = `/Instructor/Instructor/UpsertCourseVideo`;
+    } else if (modalName === 'AddReferenceModal') {
+        actionUrl = `/Instructor/Instructor/UpsertReference`;
+    }
+    
+    $.ajax({
+        url: actionUrl,
+        type: 'GET',
+        data: {
+            id: bindId || 0,
+            curriculumId: curriculumId
+        },
+        success: function (data) {
+
+            $(`#${modalName} .modal-content`).html(data);
+            $(`#${modalName}`).modal('show');
+          
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
+//function openAddReference(curriculumId, referenceId, modalName) {
+//    $.ajax({
+//        url: `/Instructor/Instructor/UpsertReference`, // استدعاء الأكشن UpsertReference
+//        type: 'GET',
+//        data: {
+//            id: referenceId || 0,  // إذا كان هناك معرف للمرجع استخدمه، وإلا استخدم 0 لإنشاء جديد
+//            curriculumId: curriculumId
+//        },
+//        success: function (data) {
+//            // عرض النموذج داخل الـ modal
+//            $(`#${modalName} .modal-content`).html(data);
+//            $(`#${modalName}`).modal('show');
+//        },
+//        error: function (xhr, status, error) {
+//            console.log('Error:', error);  // عرض الخطأ في الـ console للتصحيح
+//        }
+//    });
+//}

@@ -28,8 +28,8 @@
                         <td>@course.Enrollments.Count</td> <!-- Assuming you have an Enrollments list -->
                         <td> <a onclick="openCourseCurriculum(@course.CourseID)" class="btn btn-outline-info">View</a></td>
                         <td>
-                            <a class="btn btn-primary" onclick="openModal(null,'Instructor','addModal','UpsertCourseCurriculum','Instructor')">UpLoad Video</a>
-                            <a class="btn btn-dark" onclick="openAddToCourse(@course.CourseID,'addModal')">Add-Process</a>
+@*                             <a class="btn btn-primary" onclick="openModal(null,'Instructor','addModal','UpsertCourseCurriculum','Instructor')">UpLoad Video</a>
+ *@                            <a class="btn btn-dark" onclick="openAddToCourse(@course.CourseID,'addModal')">Add-Process</a>
                         </td>
                     </tr>
                 }
@@ -51,7 +51,7 @@
 </div>
 
 <div class="modal fade" id="curriculumModal" tabindex="-1" aria-labelledby="curriculumModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="curriculumModalLabel">Course Curriculum</h5>
