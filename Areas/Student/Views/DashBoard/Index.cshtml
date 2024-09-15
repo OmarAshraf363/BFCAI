@@ -111,8 +111,8 @@
         <div class="course-schedule">
         @foreach (var course in Model.Courses)
         {
-            <div class="course-details mb-4">
                 <h5>Course Appointment</h5>
+            <div class="course-details mb-4">
                 <ul class="list-group">
                     @foreach (var schedule in Model.ClassSchedule.Where(s => s.CourseId == course.CourseID))
                     {
@@ -204,12 +204,11 @@
                 <tr>
                     <th>Course ID</th>
                     <th>Course Name</th>
-                    <th>DeadLine</th>
+                    <th>Deadline</th>
                     <th>Instructor</th>
                     <th>About Course</th>
-                    <th>Course Status </th>
+                    <th>Course Status</th>
                     <th></th>
-                   
                 </tr>
             </thead>
             <tbody>
@@ -218,50 +217,63 @@
                     <tr>
                         <td>@course.CourseID</td>
                         <td>@course.CourseName</td>
-                        <td>@(course.EndDate==null?"Not Set":course.EndDate)</td>
+                        <td>@(course.EndDate == null ? "Not Set" : course.EndDate)</td>
                         <td>@course.Instructor.FullName</td>
                         <td>
-
-
+                            <a class="btn btn-info" onclick="openDetails(@course.CourseID,'courseDetailsModal')">Get</a>
                         </td>
                         <td>
-                            @if (Model.Enrollments.Where(e=>e.CourseID==course.CourseID).Count()>course.NumOfEnrollments)
+                            @if (Model.Enrollments.Where(e => e.CourseID == course.CourseID).Count() > course.NumOfEnrollments)
                             {
                                 <span class="text-dark text-decoration-line-through"> @StaticData.Full_Status</span>
                             }
                             else
                             {
                                 <span class="text-primary"> @StaticData.Available_Status</span>
-
                             }
-                               
-
                         </td>
                         <td>
                             @if (Model.Enrollments.Where(e => e.CourseID == course.CourseID).Count() > course.NumOfEnrollments)
                             {
-                                <a class="btn btn-primary"> Enroll To Access Matrial </a>
+                                <a class="btn btn-primary">Enroll To Access Material</a>
                             }
                             else
                             {
-                                <a class="btn btn-primary"> Enroll</a>
-
+                                <a class="btn btn-primary">Enroll</a>
                             }
-                           
                         </td>
-
-
-
                     </tr>
-
                 }
             </tbody>
         </table>
+
+
+
+
     </div>
 
 
     </section>
 
+        <!-- Modal -->
+        <div class="modal fade" id="courseDetailsModal" tabindex="-1" aria-labelledby="courseDetailsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="courseDetailsModalLabel">Course Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="courseDetailsContent">
+                            <!-- Content will be loaded here via AJAX -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -289,7 +301,6 @@
         </div>
     </div>
 </div>
-
 
 
 

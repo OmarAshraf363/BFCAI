@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banha UniverCity", "Banha UniverCity.csproj", "{86A503B2-B729-48CC-915F-7E0CFCF091D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{6E75F573-E3E4-46C1-B71D-7C16FCF165AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{6E75F573-E3E4-46C1-B71D-7C16FCF165AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFCAI.Models", "..\BFCAI.Models\BFCAI.Models.csproj", "{BB63EBCE-A37C-4A76-8C0C-D5C37A5FBD15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BFCAI.Models", "..\BFCAI.Models\BFCAI.Models.csproj", "{BB63EBCE-A37C-4A76-8C0C-D5C37A5FBD15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFCAI.Utility", "..\BFCAI.Utility\BFCAI.Utility.csproj", "{15BEF761-91BA-452D-BA21-7181E92ED52D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BFCAI.Utility", "..\BFCAI.Utility\BFCAI.Utility.csproj", "{15BEF761-91BA-452D-BA21-7181E92ED52D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

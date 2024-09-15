@@ -166,3 +166,23 @@ function openCourseCurriculum(courseId) {
         }
     });
 }
+
+function openDetails(courseId, modalName) {
+    
+    
+
+        // Fetch course details and load into the modal
+        $.ajax({
+            url: `/Student/DashBoard/CourseDetails`,
+            type: 'GET',
+            data: { id: courseId },
+            success: function (result) {
+
+                $(`#${modalName} #courseDetailsContent`).html(result);
+                $(`#${modalName}`).modal('show');;
+            },
+            error: function () {
+                modal.find('#courseDetailsContent').html('<p>Error loading course details. Please try again later.</p>');
+            }
+        });
+    };

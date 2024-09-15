@@ -69,6 +69,12 @@ namespace Banha_UniverCity.Areas.Student.Controllers
             return View(model);
         }
 
+        public IActionResult CourseDetails(int? id)
+        {
+            var course=_unitOfWork.courseRepository.GetOne(e=>e.CourseID== id,e=>e.LearningObjectives,expression=>expression.TopicsCovered);
+            return PartialView(course);
+        }
+
 
     }
 }
