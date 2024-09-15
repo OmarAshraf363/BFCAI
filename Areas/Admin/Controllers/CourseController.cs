@@ -67,7 +67,7 @@ namespace Banha_UniverCity.Areas.Admin.Controllers
                 ViewBag.drpartmentId = departmentId;
                 ViewBag.departmentName = _unitOfWork.departmentRepository.GetOne(e => e.DepartmentID == departmentId)?.DepartmentName;
             }
-
+            
             return course != null ? View(course) : NotFound();
 
         }
@@ -76,8 +76,25 @@ namespace Banha_UniverCity.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<TopicCovered> topicsCovered = new List<TopicCovered>();
+                foreach (var topic in course.TopicsCovered)
+                {
+                    topic.CourseID = course.CourseID;
+                    topicsCovered.Add(topic);
+                }
+                List<LearningObjective> learningObjectives = new List<LearningObjective>();
+                foreach (var item in course.LearningObjectives)
+                {
+                    item.CourseID = course.CourseID;
+                    learningObjectives.Add(item);
+                }
+
+                _unitOfWork.learningObjectiveRepository.AddRange(learningObjectives);
+                _unitOfWork.topicCoveresRepository.AddRange(topicsCovered);
+                _unitOfWork.Commit();
                 if (course.CourseID == 0)
                 {
+                   
                     _unitOfWork.courseRepository.Create(course);
                     TempData["alert"] = "Added successfully";
                 }

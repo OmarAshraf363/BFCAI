@@ -1,0 +1,38 @@
+﻿@model BFCAI.Models.AssignmentSubmission
+
+<div class="modal-header">
+    <h5 class="modal-title" id="assignmentSubmissionModalLabel">Submit Assignment</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form asp-action="UploadSoluation" asp-controller="Assinment"  method="post" id="assignmentSubmissionForm">
+    <div class="modal-body">
+        <!-- Hidden fields -->
+        <input type="hidden" asp-for="AssignmentSubmissionID" />
+        <input type="hidden" asp-for="AssignmentID" />
+        <input type="hidden" asp-for="ApplicationUserID" />
+        <input type="hidden" name="url" value="/Student/DashBoard/Index" />
+
+        <!-- Submission Date -->
+       
+
+        <!-- Assignment Content -->
+        <div class="form-group">
+            <label asp-for="Content" class="control-label">Assignment Content</label>
+            <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" onclick="allConfirm('assignmentSubmissionForm')" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

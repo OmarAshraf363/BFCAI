@@ -22,8 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\Student\Controllers\" />
 	  <Folder Include="wwwroot\Images\" />
+	  <Folder Include="wwwroot\assignments\" />
 	</ItemGroup>
 
 	<ItemGroup>

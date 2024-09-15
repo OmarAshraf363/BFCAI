@@ -1,7 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿
 function deleteIt(itemId, controler) {
     Swal.fire({
 
@@ -109,13 +106,15 @@ function openAddToCourse(courseId, modalName) {
 }
 
 
-function openAddToCourseRefOrVideo(curriculumId, bindId,modalName) {
+function openAddToCourseRefOrVideo(curriculumId, bindId,modalName,area,action,controller,fromCourse) {
     let actionUrl = '';
 
     if (modalName === 'AddVideoModal') {
         actionUrl = `/Instructor/Instructor/UpsertCourseVideo`;
     } else if (modalName === 'AddReferenceModal') {
         actionUrl = `/Instructor/Instructor/UpsertReference`;
+    } else {
+        actionUrl = `/${area}/${controller}/${action}`
     }
     
     $.ajax({
@@ -123,7 +122,8 @@ function openAddToCourseRefOrVideo(curriculumId, bindId,modalName) {
         type: 'GET',
         data: {
             id: bindId || 0,
-            curriculumId: curriculumId
+            curriculumId: curriculumId,
+            fromCourseArea: fromCourse||null
         },
         success: function (data) {
 
@@ -137,21 +137,32 @@ function openAddToCourseRefOrVideo(curriculumId, bindId,modalName) {
     });
 }
 
-//function openAddReference(curriculumId, referenceId, modalName) {
-//    $.ajax({
-//        url: `/Instructor/Instructor/UpsertReference`, // استدعاء الأكشن UpsertReference
-//        type: 'GET',
-//        data: {
-//            id: referenceId || 0,  // إذا كان هناك معرف للمرجع استخدمه، وإلا استخدم 0 لإنشاء جديد
-//            curriculumId: curriculumId
-//        },
-//        success: function (data) {
-//            // عرض النموذج داخل الـ modal
-//            $(`#${modalName} .modal-content`).html(data);
-//            $(`#${modalName}`).modal('show');
-//        },
-//        error: function (xhr, status, error) {
-//            console.log('Error:', error);  // عرض الخطأ في الـ console للتصحيح
-//        }
-//    });
-//}
+
+function openAssignmentModal(assignmentId) {
+    $.ajax({
+        url: `/instructor/assinment/GetAssignmentDetails`,
+        type: 'GET',
+        data: { id: assignmentId },
+        success: function (data) {
+            $('#assignmentDetailsContent').html(data);
+            $('#assignmentDetailsModal').modal('show');
+        },
+        error: function () {
+            alert('Failed to load assignment details.');
+        }
+    });
+}
+
+function openCourseCurriculum(courseId) {
+    $.ajax({
+        url: `/Instructor/Instructor/GetCourseCurriculum?courseId=${courseId}`,
+        type: 'GET',
+        success: function (data) {
+            $('#curriculumModal .modal-body').html(data);
+            $('#curriculumModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+}

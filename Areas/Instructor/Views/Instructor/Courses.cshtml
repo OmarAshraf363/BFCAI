@@ -64,19 +64,5 @@
     </div>
 </div>
 
-<script>
-    function openCourseCurriculum(courseId) {
-        $.ajax({
-            url: `/Instructor/Instructor/GetCourseCurriculum?courseId=${courseId}`,
-            type: 'GET',
-            success: function (data) {
-                $('#curriculumModal .modal-body').html(data);
-                $('#curriculumModal').modal('show');
-            },
-            error: function (xhr, status, error) {
-                console.log(error);
-            }
-        });
-    }
-</script>
+
 

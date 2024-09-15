@@ -1,14 +1,15 @@
 ﻿@model Banha_UniverCity.Models.Course
-
+@{
+    bool fromCourse = true;
+}
 <style>
-    .video-container, .reference-container {
+    .video-container, .reference-container, .assignment-container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px; /* Increased gap for better spacing */
     }
 
-    .video-item, .reference-item {
-        /* flex: 1 1 calc(33% - 20px); */ /* Adjust percentage for responsive design */
+    .video-item, .reference-item, .assignment-item {
         box-sizing: border-box;
         background: #f5f5f5; /* Light background color */
         border-radius: 10px;
@@ -20,12 +21,12 @@
         transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
     }
 
-        .video-item:hover, .reference-item:hover {
+        .video-item:hover, .reference-item:hover, .assignment-item:hover {
             background-color: #e0e0e0; /* Slightly darker background on hover */
             box-shadow: 0 6px 14px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
         }
 
-        .video-item a, .reference-item a {
+        .video-item a, .reference-item a, .assignment-item a {
             text-decoration: none;
             color: #333;
             display: flex;
@@ -34,7 +35,7 @@
             transition: color 0.3s ease;
         }
 
-            .video-item a:hover, .reference-item a:hover {
+            .video-item a:hover, .reference-item a:hover, .assignment-item a:hover {
                 color: #007bff; /* Color change on hover */
             }
 
@@ -95,13 +96,20 @@
                                     <a href="@video.VideoURL" target="_blank">
                                         <i class="fa-solid fa-video"></i> @video.VideoTitle
                                     </a>
-                                    <!-- زر لتعديل الفيديو -->
+                                    @if(!User.IsInRole(StaticData.role_Student)){
+                                        
                                     <a onclick="openAddToCourseRefOrVideo(@video.CourseCurriculumID,@video.CourseVideoID,'AddVideoModal')" class="btn btn-warning btn-sm ml-auto">
                                         <i class="fa-solid fa-edit"></i>
                                     </a>
                                     <a asp-action="DeleteVideo" asp-route-id="@video.CourseVideoID" asp-route-curriculumId="@video.CourseCurriculumID" asp-route-courseId="@video.CourseID" class="btn btn-danger btn-sm ml-2">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
+                                        <!-- Button to edit video -->
+                                    }
+                                    else
+                                    {
+                                        
+                                    }
                                 </div>
                             }
                         </div>
@@ -124,13 +132,16 @@
                                     <a href="@reference.ResourceURL" class="btn btn-primary btn-sm text-light" target="_blank">
                                         <i class="fa-solid fa-book"></i> @reference.ResourceTitle
                                     </a>
-                                    <a asp-action="DeleteReference" asp-route-id="@reference.CourseResourceID" asp-route-curriculumId="@reference.CourseCurriculumID" class="btn btn-danger btn-sm ml-2">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                    <!-- زر لتعديل المرجع -->
-                                    <a onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, @reference.CourseResourceID,'AddReferenceModal')" class="btn btn-warning btn-sm ml-2">
-                                        <i class="fa-solid fa-edit"></i>
-                                    </a>
+                                    @if (!User.IsInRole(StaticData.role_Student))
+                                    {
+                                        <a asp-action="DeleteReference" asp-route-id="@reference.CourseResourceID" asp-route-curriculumId="@reference.CourseCurriculumID" class="btn btn-danger btn-sm ml-2">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <!-- Button to edit reference -->
+                                        <a onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, @reference.CourseResourceID,'AddReferenceModal')" class="btn btn-warning btn-sm ml-2">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </a>
+                                    }
                                 </div>
                             }
                         </div>
@@ -141,15 +152,72 @@
                     }
                 </div>
 
-                <!-- زر لإضافة فيديو -->
-                <a class="btn btn-outline-primary mt-2" onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, null,'AddVideoModal')">
-                    <i class="fa-solid fa-plus"></i> Add Video
-                </a>
+                <!-- عرض المهام الخاصة بالمنهج -->
+                <div class="mb-4">
+                    @if (curriculum.Assignments != null && curriculum.Assignments.Any())
+                    {
+                        <h6 class="text-info">Assignments:</h6>
+                        <div class="assignment-container">
+                            @foreach (var assignment in curriculum.Assignments)
+                            {
+                                <div class="assignment-item">
+                                    <a href="/assignments/@assignment.Content" target="_blank">
+                                        <i class="fa-solid fa-file"></i> @assignment.Title
+                                    </a>
+                                    
+                                    @if (!User.IsInRole(StaticData.role_Student))
+                                    {
+                                        <!-- Button to edit assignment -->
+                                        <a onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, @assignment.AssignmentID,'AddAssignmentModal','instructor','Upsert','Assinment')" class="btn btn-warning btn-sm ml-auto">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </a>
+                                        <a asp-action="DeleteConfirmed" asp-controller="assinment" asp-route-id="@assignment.AssignmentID" class="btn btn-danger btn-sm ml-2">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        if (assignment.Submissions.Any(e=>e.AssignmentID==assignment.AssignmentID))
+                                        {
+                                            <span class="text-success">Submited
 
-                <!-- زر لإضافة مرجع -->
-                <a class="btn btn-outline-secondary mt-2" onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, null,'AddReferenceModal')">
-                    <i class="fa-solid fa-plus"></i> Add Reference
+                                                <i class="fa-solid fa-check"></i>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            
+                                        <a class="btn btn-success btn-sm ml-2" onclick="openModal(@assignment.AssignmentID,'Assinment','AddAssignmentModal','UploadSoluation','Instructor')">
+                                            Upload Solution
+                                        </a>
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No assignments available for this curriculum.</p>
+                    }
+                </div>
+                @if (!User.IsInRole(StaticData.role_Student))
+                {
+                    <!-- Button to add video -->
+                    <a class="btn btn-outline-primary mt-2" onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, null,'AddVideoModal')">
+                        <i class="fa-solid fa-plus"></i> Add Video
+                    </a>
+
+                    <!-- Button to add reference -->
+                    <a class="btn btn-outline-secondary mt-2" onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, null,'AddReferenceModal')">
+                        <i class="fa-solid fa-plus"></i> Add Reference
+                    </a>
+
+                    <!-- Button to add assignment -->
+                    <a class="btn btn-outline-info mt-2" onclick="openAddToCourseRefOrVideo(@curriculum.CourseCurriculumID, null,'AddAssignmentModal','instructor','Upsert','Assinment','true')">
+                        <i class="fa-solid fa-plus"></i> Add Assignment
                 </a>
+                }
             </li>
         }
     </ul>
@@ -159,11 +227,11 @@ else
     <p class="text-muted">No curricula available for this course.</p>
 }
 
-<!-- Modals لاضافة فيديو ومرجع -->
+<!-- Modals for Adding/Editing Video, Reference, and Assignment -->
 <div class="modal fade" id="AddVideoModal" tabindex="-1" role="dialog" aria-labelledby="AddVideoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content bg-dark text-light">
-            <!-- محتوى الـ Modal سيتم تحميله هنا بواسطة Ajax -->
+            <!-- Content for Add/Edit Video Modal will be loaded here via Ajax -->
         </div>
     </div>
 </div>
@@ -171,7 +239,17 @@ else
 <div class="modal fade" id="AddReferenceModal" tabindex="-1" role="dialog" aria-labelledby="AddReferenceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content bg-dark text-light">
-            <!-- محتوى الـ Modal سيتم تحميله هنا بواسطة Ajax -->
+            <!-- Content for Add/Edit Reference Modal will be loaded here via Ajax -->
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="AddAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="AddAssignmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-light">
+            <!-- Content for Add/Edit Assignment Modal will be loaded here via Ajax -->
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle modals -->

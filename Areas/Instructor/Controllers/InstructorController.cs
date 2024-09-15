@@ -102,7 +102,7 @@ namespace Banha_UniverCity.Areas.Instructor.Controllers
 
             return PartialView("_CourseCurriculumPartial", course);
         }
-
+        
         [HttpGet]
         public IActionResult UpsertCourseVideo(int? id, int curriculumId)
         {

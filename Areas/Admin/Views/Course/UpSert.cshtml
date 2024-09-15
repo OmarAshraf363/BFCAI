@@ -8,23 +8,19 @@
             @if (Model.CourseID == 0)
             {
                 <i class="fa-solid fa-plus text-success"></i>
-                if(ViewBag.fromDepartment != null)
+                @if (ViewBag.fromDepartment != null)
                 {
                     @:Create New Course in @ViewBag.departmentName
-
                 }
                 else
                 {
                     @:Create New Course
                 }
-              
             }
             else
             {
                 <i class="fa-solid fa-edit text-warning"></i>
-               @: Edit
-                                  <span class="text-primary">@Model.CourseName</span>
-               @: Course
+                @: Edit <span class="text-primary">@Model.CourseName</span> Course
             }
         </h3>
 
@@ -32,30 +28,59 @@
             @if (ViewBag.fromDepartment != null)
             {
                 <input type="hidden" name="fromDepartment" value="@ViewBag.fromDepartment" />
-                
             }
-            <div class="form-group">
-                <input asp-for="CourseID" type="hidden" class="form-control" readonly />
-            </div>
 
+            <!-- الحقول المخفية -->
+            <input asp-for="CourseID" type="hidden" />
+
+            <!-- اسم الكورس -->
             <div class="form-group mb-3">
                 <label asp-for="CourseName" class="form-label fw-bold">Course Name</label>
                 <input asp-for="CourseName" class="form-control" placeholder="Enter course name" />
                 <span asp-validation-for="CourseName" class="text-danger"></span>
             </div>
 
+            <!-- الوصف -->
             <div class="form-group mb-3">
                 <label asp-for="Description" class="form-label fw-bold">Description</label>
                 <textarea asp-for="Description" class="form-control" placeholder="Enter course description"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
+            <!-- السعر -->
             <div class="form-group mb-3">
-                <label asp-for="Credits" class="form-label fw-bold">Credits</label>
-                <input asp-for="Credits" class="form-control" type="number" min="0" max="10" placeholder="Enter course credits" />
-                <span asp-validation-for="Credits" class="text-danger"></span>
+                <label asp-for="Price" class="form-label fw-bold">Price</label>
+                <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder="Enter course price" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
+            <!-- رابط الفيديو التوضيحي -->
+            <div class="form-group mb-3">
+                <label asp-for="DemoVideoUrl" class="form-label fw-bold">Demo Video URL</label>
+                <input asp-for="DemoVideoUrl" class="form-control" placeholder="Enter demo video URL" />
+                <span asp-validation-for="DemoVideoUrl" class="text-danger"></span>
+            </div>
+
+            <!-- عدد الطلاب المطلوب -->
+            <div class="form-group mb-3">
+                <label asp-for="NumOfEnrollments" class="form-label fw-bold">Required Students</label>
+                <input asp-for="NumOfEnrollments" class="form-control" placeholder="Enter required number of students" />
+                <span asp-validation-for="NumOfEnrollments" class="text-danger"></span>
+            </div>
+
+            <!-- تاريخ البدء والانتهاء -->
+            <div class="form-group mb-3">
+                <label asp-for="StartDate" class="form-label fw-bold">Start Date</label>
+                <input asp-for="StartDate" class="form-control" type="date" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="EndDate" class="form-label fw-bold">End Date</label>
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <!-- المدرب -->
             <div class="form-group mb-3">
                 <label asp-for="InstructorId" class="form-label fw-bold">Instructor</label>
                 <select asp-for="InstructorId" asp-items="ViewBag.Instructors" class="form-control">
@@ -63,21 +88,84 @@
                 </select>
                 <span asp-validation-for="InstructorId" class="text-danger"></span>
             </div>
+
+            <!-- القسم -->
             @if (ViewBag.fromDepartment != null)
             {
-                <input asp-for="DepartmentId" type="hidden" value="@ViewBag.drpartmentId" />
-            }else{
-
-            <div class="form-group mb-4">
-                <label asp-for="DepartmentId" class="form-label fw-bold">Department</label>
-                <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
-                    <option value="">Select Department</option>
-                </select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
+                <input asp-for="DepartmentId" type="hidden" value="@ViewBag.departmentId" />
+            }
+            else
+            {
+                <div class="form-group mb-4">
+                    <label asp-for="DepartmentId" class="form-label fw-bold">Department</label>
+                    <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
+                        <option value="">Select Department</option>
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
             }
 
-            <div class="d-flex justify-content-between">
+            <!-- أهداف التعلم -->
+            <!-- أهداف التعلم -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold">Learning Objectives</label>
+                        <button type="button" id="addObjectiveBtn" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-plus"></i> Add Objective</button>
+                        <div id="objectivesContainer" class="mt-3">
+                            @for (int i = 0; i < Model.LearningObjectives.Count; i++)
+                            {
+                                <div class="form-group mb-3">
+                                    <textarea name="LearningObjectives[@i].Objective" class="form-control" placeholder="Enter learning objective">@Model.LearningObjectives[i].Objective</textarea>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topics Covered -->
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold">Topics Covered</label>
+                        <button type="button" id="addTopicBtn" class="btn btn-outline-info btn-sm"><i class="fa-solid fa-plus"></i> Add Topic</button>
+                        <div id="topicsContainer" class="mt-3">
+                            @for (int i = 0; i < Model.TopicsCovered.Count; i++)
+                            {
+                                <div class="form-group mb-3">
+                                    <textarea name="TopicsCovered[@i].Topic" class="form-control" placeholder="Enter topic">@Model.TopicsCovered[i].Topic</textarea>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let indexObjectives = @Model.LearningObjectives.Count;
+                let indexTopics = @Model.TopicsCovered.Count;
+
+                document.getElementById('addObjectiveBtn').addEventListener('click', function () {
+                    const container = document.getElementById('objectivesContainer');
+                    const newField = document.createElement('div');
+                    newField.classList.add('form-group', 'mb-3');
+                    newField.innerHTML = `<textarea name="LearningObjectives[${indexObjectives}].Objective" class="form-control" placeholder="Enter learning objective"></textarea>`;
+                    container.appendChild(newField);
+                    indexObjectives++;
+                });
+
+                document.getElementById('addTopicBtn').addEventListener('click', function () {
+                    const container = document.getElementById('topicsContainer');
+                    const newField = document.createElement('div');
+                    newField.classList.add('form-group', 'mb-3');
+                    newField.innerHTML = `<textarea name="TopicsCovered[${indexTopics}].Topic" class="form-control" placeholder="Enter topic"></textarea>`;
+                    container.appendChild(newField);
+                    indexTopics++;
+                });
+            </script>
+
+
+            <!-- الأزرار -->
+            <div class="d-flex justify-content-between mt-4">
                 @if (Model.CourseID == 0)
                 {
                     <button type="submit" class="btn btn-success w-100 me-2"><i class="fa-solid fa-check"></i> Create</button>
@@ -110,37 +198,63 @@
     }
 
     .form-label {
-        color: #495057;
+        color: #adb5bd;
     }
 
     .form-control {
         border-radius: 6px;
         border: 1px solid #ced4da;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
         background-color: #1c1a1a;
-        color:lightgray;
+        color: #f8f9fa;
     }
 
         .form-control:focus {
             background-color: #111315;
             border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
         }
 
-    .btn {
-        padding: 10px;
-        border-radius: 6px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
     }
 
-    .btn-success:hover,
-    .btn-dark:hover,
-    .btn-secondary:hover {
-        background-color: #5a6268;
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
     }
 
-    .btn i {
-        margin-right: 5px;
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .btn-dark {
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+
+        .btn-dark:hover {
+            background-color: #23272b;
+            border-color: #1d2124;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .text-danger {
+        color: #dc3545;
     }
 </style>

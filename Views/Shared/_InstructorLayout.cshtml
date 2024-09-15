@@ -111,8 +111,11 @@
     <main class="d-flex">
         <div class="sidebar">
             <a asp-area="@StaticData.role_Instructor" asp-controller="Instructor" asp-action="Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="@Url.Action("ManageExams")"><i class="fas fa-file-alt"></i> Manage Exams</a>
+            <a asp-area="@StaticData.role_Instructor" asp-controller="Exam" asp-action="Index"></i> Manage Exams</a>
             <a asp-area="@StaticData.role_Instructor" asp-controller="Instructor" asp-action="Courses" ><i class="fas fa-book"></i> Courses</a>
+            <a asp-area="@StaticData.role_Instructor" asp-controller="Assinment" asp-action="Index"><i class="fas fa-book"></i> Assinments</a>
+
+            
             <a href="@Url.Action("Grades")"><i class="fas fa-graduation-cap"></i> Grades</a>
             <a asp-area="Instructor" asp-controller="Student" asp-action="Index"><i class="fas fa-users"></i> Students</a>
             <a href="@Url.Action("Reports")"><i class="fas fa-chart-line"></i> Reports</a>
